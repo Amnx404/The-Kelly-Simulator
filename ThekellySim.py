@@ -98,10 +98,13 @@ st.latex(r'''
          
          ''')
 st.write('---')
-p = st.slider('Probability of winning:', 0.0, 1.0, 0.5)
-num_player = st.number_input('Profit multiplier:', 1, 10, 1)
-total = st.number_input('Total amount of money:', 1, 100, 100)
-a = st.number_input('Loss multiplier:', 1, 5, 1)
+
+
+p = st.slider('Probability of winning(P):', 0.0, 1.0, 0.5)
+num_player = st.slider('Profit Multiplier(K):', 0.0, 3.0, 1.0)
+a = st.slider('Loss Multiplier(A):', 0.0, 3.0, 1.0)
+total = st.number_input('Total amount of money:', 1, 1000, 100)  
+
 
 st.write('---')
 
@@ -112,9 +115,9 @@ q = round(q, 2)
 b = num_player
 
 if 'money_class' not in st.session_state:
-    st.session_state.money_class = np.array([100])
+    st.session_state.money_class = np.array([total])
 if 'money_kelly' not in st.session_state:
-    st.session_state.money_kelly = np.array([100])
+    st.session_state.money_kelly = np.array([total])
 if 'count' not in st.session_state:
     st.session_state.count = 0
 if 'wager1' not in st.session_state:
@@ -125,10 +128,18 @@ if 'sim_trials_2' not in st.session_state:
     st.session_state.sim_trials_2 = np.array([0])
 if 'm' not in st.session_state:
     st.session_state.m = 1
+    
+    
+    
+st.session_state.money_class[0] = np.array([total])
+st.session_state.money_kelly[0] = np.array([total])
+
+
+
 
 st.write('Probability of winning (P):', p)
 st.write('Probability of losing (Q):', q)
-st.write('Odds against winning (K : A):', b, ' : ',a)
+st.write('Odds against ratio (K : A):', b, ' : ',a)
 st.write('Starting money:', total)
 
 #p = st.button('randomize profit', on_click=randp)
@@ -138,11 +149,10 @@ with st.container():
     
     row1, row2 = st.columns(2)
 
-    wager1 = st.session_state.wager1
 
     with row1:
         st.subheader('*Gambler*')
-        st.write('Wager:', wager1)
+        st.write('Wager:', st.session_state.wager1)
         st.write('Money in Hand:',st.session_state.money_class[-1])
         
         
@@ -163,18 +173,21 @@ with st.container():
     betr3, betr4 = st.columns(2)
     
     with betr4:
-        meow = st.button('Bet', on_click=bet, args=(wager1, wager2, p, st.session_state.money_class, st.session_state.money_kelly,a,b))
+        meow = st.button('Bet', on_click=bet, args=(st.session_state.wager1, wager2, p, st.session_state.money_class, st.session_state.money_kelly,a,b))
     with betr1:
         st.session_state.wager1 = st.number_input('Wager for gambler:', 1, 100, 5,1)  
-        wager1 = st.session_state.wager1  
     with betr3:
         resetbutton = st.button('Reset', on_click=reset)
     with betr2:
         #put a drop down to select m
-        st.session_state.m = st.selectbox('Select simulator multiplier:', [1,10,100])
+        if st.session_state.count < 1:
+            st.session_state.m = st.selectbox('Select simulator multiplier:', [1,10,100])
+        else:
+            #disable the drop down
+            st.session_state.m = st.selectbox('Select simulator multiplier:', [1,10,100],disabled=True)
     st.write('---')
     if st.session_state.count > 0:
-        st.write('Number of bets:', (st.session_state.count * st.session_state.m * 2)-1,st.session_state.m * 2,"    |     Number of simulations:", st.session_state.m * 3)
+        st.write('Number of bets:', (st.session_state.count * st.session_state.m * 2)-1,"    |     Number of simulations:", st.session_state.m * 3)
     else:
         st.write('Number of bets:', 0, "    |     Number of simulations:", st.session_state.m * 3)
     
