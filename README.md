@@ -21,4 +21,5 @@ Install streamlit from here according to your OS : https://docs.streamlit.io/lib
 
 
 **IMPORTANT**
-After running any number of bets, if you change any property of the sim, please reset the plots before running the bet again
+After running the first bet, you cannot change the simulation multiplier, You have to reset the simulation before accessing the same option again.
+Try refreshing if anything goes wrong
