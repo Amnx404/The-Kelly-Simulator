@@ -192,7 +192,7 @@ with st.container():
         st.write('Number of bets:', 0, "    |     Number of simulations:", st.session_state.m * 3)
     
     #open a toggle menu
-    with st.expander('Show simulation trials'):
+    with st.expander('Show simulation trials : (These graphs depict multiple simulations(days) of the same person across a number of bets)'):
         ebetr1, ebetr2 = st.columns(2)
         with ebetr1:
             st.write('Gambler:')
@@ -206,6 +206,7 @@ with st.container():
     st.write(" ")
     st.write('---')
     st.write(' ')
+    st.subheader('The mean wealth(calculated for a particular bet) of Kelly and the gambler across multiple bets')
     tota_moneyy = np.array([st.session_state.money_class, st.session_state.money_kelly]).T
     tota_moneyy = pd.DataFrame(tota_moneyy, columns = ['Gambler', 'Kelly'])
     st.line_chart(tota_moneyy)
