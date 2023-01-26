@@ -21,6 +21,8 @@ Install streamlit from here according to your OS : https://docs.streamlit.io/lib
 
 
 **IMPORTANT**
+
 1.All the graphs have x axis as the n_th bet while the y axis depicts the amount of wealth.
+
 2.After running the first bet, you cannot change the simulation multiplier, You have to reset the simulation before accessing the same option again.
 Try refreshing if anything goes wrong
